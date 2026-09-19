@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arduino Sensor Dashboard - Machine Health Monitor</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📊</text></svg>">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <h1><i class="fas fa-heartbeat"></i> Machine Health Monitor</h1>
+                <p class="subtitle">Real-time monitoring of sound, vibration, temperature & humidity with health index</p>
+                <div class="status-badge demo-badge">
+                    <i class="fas fa-code"></i> DEMO MODE
+                </div>
+            </div>
+            <div class="header-info">
+                <div class="current-time">
+                    <i class="far fa-clock"></i>
+                    <span id="currentTime">Loading...</span>
+                </div>
+                <div class="connection-status">
+                    <span class="status-dot online"></span>
+                    <span>Simulation Active</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Dashboard -->
+        <main class="dashboard">
+            <!-- Sensor Cards Grid -->
+            <div class="sensor-grid">
+                <!-- Sound Sensor -->
+                <div class="sensor-card sound-card">
+                    <div class="card-header">
+                        <div class="sensor-icon">
+                            <i class="fas fa-volume-up"></i>
+                        </div>
+                        <h3>Sound Level</h3>
+                        <div class="status-indicator normal">
+                            <i class="fas fa-check-circle"></i> Normal
+                        </div>
+                    </div>
+                    <div class="card-value">
+                        <span class="value" id="soundValue">65.5</span>
+                        <span class="unit">dB</span>
+                    </div>
+                    <div class="card-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="soundProgress" style="width: 45%"></div>
+                        </div>
+                        <div class="progress-labels">
+                            <span>30 dB</span>
+                            <span>Current</span>
+                            <span>120 dB</span>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="last-updated">
+                            <i class="far fa-clock"></i>
+                            Updated: <span id="soundTime">Just now</span>
+                        </div>
+                        <div class="threshold">
+                            Health Impact: <strong><span id="soundHealthScore">95</span>%</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Vibration Sensor -->
+                <div class="sensor-card vibration-card">
+                    <div class="card-header">
+                        <div class="sensor-icon">
+                            <i class="fas fa-bolt"></i>
+                        </div>
+                        <h3>Vibration</h3>
+                        <div class="status-indicator warning">
+                            <i class="fas fa-exclamation-triangle"></i> Warning
+                        </div>
+                    </div>
+                    <div class="card-value">
+                        <span class="value" id="vibrationValue">2,450</span>
+                        <span class="unit">Hz</span>
+                    </div>
+                    <div class="card-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="vibrationProgress" style="width: 49%"></div>
+                        </div>
+                        <div class="progress-labels">
+                            <span>0 Hz</span>
+                            <span>Current</span>
+                            <span>5000 Hz</span>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="last-updated">
+                            <i class="far fa-clock"></i>
+                            Updated: <span id="vibrationTime">Just now</span>
+                        </div>
+                        <div class="threshold">
+                            Health Impact: <strong><span id="vibrationHealthScore">75</span>%</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Temperature Sensor -->
+                <div class="sensor-card temperature-card">
+                    <div class="card-header">
+                        <div class="sensor-icon">
+                            <i class="fas fa-thermometer-half"></i>
+                        </div>
+                        <h3>Temperature</h3>
+                        <div class="status-indicator normal">
+                            <i class="fas fa-check-circle"></i> Normal
+                        </div>
+                    </div>
+                    <div class="card-value">
+                        <span class="value" id="temperatureValue">24.5</span>
+                        <span class="unit">°C</span>
+                    </div>
+                    <div class="card-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="temperatureProgress" style="width: 57.5%"></div>
+                        </div>
+                        <div class="progress-labels">
+                            <span>-10°C</span>
+                            <span>Current</span>
+                            <span>50°C</span>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="last-updated">
+                            <i class="far fa-clock"></i>
+                            Updated: <span id="temperatureTime">Just now</span>
+                        </div>
+                        <div class="threshold">
+                            Health Impact: <strong><span id="temperatureHealthScore">90</span>%</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Humidity Sensor -->
+                <div class="sensor-card humidity-card">
+                    <div class="card-header">
+                        <div class="sensor-icon">
+                            <i class="fas fa-tint"></i>
+                        </div>
+                        <h3>Humidity</h3>
+                        <div class="status-indicator normal">
+                            <i class="fas fa-check-circle"></i> Normal
+                        </div>
+                    </div>
+                    <div class="card-value">
+                        <span class="value" id="humidityValue">45.2</span>
+                        <span class="unit">%</span>
+                    </div>
+                    <div class="card-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="humidityProgress" style="width: 45.2%"></div>
+                        </div>
+                        <div class="progress-labels">
+                            <span>0%</span>
+                            <span>Current</span>
+                            <span>100%</span>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="last-updated">
+                            <i class="far fa-clock"></i>
+                            Updated: <span id="humidityTime">Just now</span>
+                        </div>
+                        <div class="threshold">
+                            Health Impact: <strong><span id="humidityHealthScore">88</span>%</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Machine Health Index -->
+            <div class="health-index-container glass-effect">
+                <h3><i class="fas fa-heartbeat"></i> Machine Health Index</h3>
+                <div class="health-score-wrapper">
+                    <div class="health-gauge">
+                        <div class="gauge-circle">
+                            <svg class="gauge-svg" viewBox="0 0 100 100">
+                                <circle class="gauge-background" cx="50" cy="50" r="45"></circle>
+                                <circle class="gauge-progress" cx="50" cy="50" r="45" 
+                                        stroke-dasharray="283" stroke-dashoffset="0" 
+                                        id="healthProgress"></circle>
+                                <text class="gauge-value" x="50" y="55" text-anchor="middle" id="healthValue">87</text>
+                                <text class="gauge-label" x="50" y="70" text-anchor="middle">HEALTH</text>
+                            </svg>
+                        </div>
+                        <div class="health-status" id="healthStatus">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Good</span>
+                        </div>
+                    </div>
+                    
+                    <div class="health-breakdown">
+                        <h4><i class="fas fa-chart-pie"></i> Health Factors</h4>
+                        <div class="health-factors">
+                            <div class="health-factor">
+                                <div class="factor-info">
+                                    <i class="fas fa-volume-up factor-icon sound"></i>
+                                    <span>Sound Health</span>
+                                </div>
+                                <div class="factor-score">
+                                    <div class="factor-progress">
+                                        <div class="factor-progress-fill sound" style="width: 95%"></div>
+                                    </div>
+                                    <span class="factor-value" id="soundFactorValue">95%</span>
+                                </div>
+                            </div>
+                            <div class="health-factor">
+                                <div class="factor-info">
+                                    <i class="fas fa-bolt factor-icon vibration"></i>
+                                    <span>Vibration Health</span>
+                                </div>
+                                <div class="factor-score">
+                                    <div class="factor-progress">
+                                        <div class="factor-progress-fill vibration" style="width: 75%"></div>
+                                    </div>
+                                    <span class="factor-value" id="vibrationFactorValue">75%</span>
+                                </div>
+                            </div>
+                            <div class="health-factor">
+                                <div class="factor-info">
+                                    <i class="fas fa-thermometer-half factor-icon temperature"></i>
+                                    <span>Temperature Health</span>
+                                </div>
+                                <div class="factor-score">
+                                    <div class="factor-progress">
+                                        <div class="factor-progress-fill temperature" style="width: 90%"></div>
+                                    </div>
+                                    <span class="factor-value" id="temperatureFactorValue">90%</span>
+                                </div>
+                            </div>
+                            <div class="health-factor">
+                                <div class="factor-info">
+                                    <i class="fas fa-tint factor-icon humidity"></i>
+                                    <span>Humidity Health</span>
+                                </div>
+                                <div class="factor-score">
+                                    <div class="factor-progress">
+                                        <div class="factor-progress-fill humidity" style="width: 88%"></div>
+                                    </div>
+                                    <span class="factor-value" id="humidityFactorValue">88%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="health-trend">
+                    <div class="trend-info">
+                        <h4><i class="fas fa-chart-line"></i> Health Trend</h4>
+                        <div class="trend-indicator" id="trendIndicator">
+                            <i class="fas fa-arrow-up"></i>
+                            <span>Stable</span>
+                        </div>
+                    </div>
+                    <div class="trend-description" id="healthDescription">
+                        Machine operating within normal parameters. Vibration levels slightly elevated but within safe range.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Device Status -->
+            <div class="status-container glass-effect">
+                <h3><i class="fas fa-server"></i> Device Status</h3>
+                <div class="status-list">
+                    <div class="status-item">
+                        <div class="status-info">
+                            <i class="fas fa-microchip"></i>
+                            <span>Arduino Uno</span>
+                        </div>
+                        <div class="status-value online">
+                            <span class="status-dot"></span>
+                            Online
+                        </div>
+                    </div>
+                    <div class="status-item">
+                        <div class="status-info">
+                            <i class="fas fa-wifi"></i>
+                            <span>ESP01 WiFi</span>
+                        </div>
+                        <div class="status-value online">
+                            <span class="status-dot"></span>
+                            Online
+                        </div>
+                    </div>
+                    <div class="status-item">
+                        <div class="status-info">
+                            <i class="far fa-clock"></i>
+                            <span>Last Data Sync</span>
+                        </div>
+                        <div class="status-value" id="lastSyncTime">Just now</div>
+                    </div>
+                    <div class="status-item">
+                        <div class="status-info">
+                            <i class="fas fa-hourglass-half"></i>
+                            <span>System Uptime</span>
+                        </div>
+                        <div class="status-value" id="uptime">00:00:00</div>
+                    </div>
+                </div>
+
+                <!-- Alert Panel -->
+                <div class="alert-panel">
+                    <h4><i class="fas fa-bell"></i> Health Alerts</h4>
+                    <div class="alert-list" id="alertList">
+                        <div class="alert-item warning">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <div class="alert-content">
+                                <strong>Vibration Level High</strong>
+                                <span>Approaching threshold (2450/3000 Hz)</span>
+                            </div>
+                        </div>
+                        <div class="alert-item info">
+                            <i class="fas fa-info-circle"></i>
+                            <div class="alert-content">
+                                <strong>System Normal</strong>
+                                <span>All other sensors operating normally</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,23 @@
+{
+  "name": "arduino-dashboard",
+  "version": "1.0.0",
+  "description": "Real-time Arduino sensor dashboard",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "arduino",
+    "dashboard",
+    "sensors",
+    "iot"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.22.1"
+  },
+  "type": "commonjs"
+}
